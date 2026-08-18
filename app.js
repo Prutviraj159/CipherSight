@@ -1,6 +1,6 @@
 /**
  * DomainShield AI — Clean Cybersecurity Scanner UI/UX Platform
- * Reset & View Report Buttons in Rectangles 1 & 2 (SIH Prototype CHA-046)
+ * Removed bottom footer text as requested (SIH Prototype CHA-046)
  */
 
 // ==========================================
@@ -442,7 +442,7 @@ function renderScanURLView() {
           </div>
         </div>
 
-        <!-- RECTANGLE 1: RESET BUTTON (POPULATES UNDER BRAND IMPERSONATION CARD) -->
+        <!-- RECTANGLE 1: RESET BUTTON -->
         ${(state.isScanning || state.scanStep > 0) ? `
           <button
             onclick="handleResetScan()"
@@ -599,7 +599,7 @@ function renderScanURLView() {
         <!-- CIRCLE GRAPH & VISUAL DETAILS CARD -->
         ${(state.isScanning || state.scanStep > 0) ? renderRightCircleGraphCard() : ''}
 
-        <!-- RECTANGLE 2: VIEW REPORT BUTTON (POPULATES UNDER CIRCLE GRAPH CARD) -->
+        <!-- RECTANGLE 2: VIEW REPORT BUTTON -->
         ${(state.isScanning || state.scanStep > 0) ? `
           <button
             onclick="openReportModal('secure-example.com')"
@@ -712,10 +712,6 @@ function router() {
       <main class="flex-1 px-6 sm:px-10 py-6 max-w-7xl mx-auto w-full">
         ${content}
       </main>
-
-      <footer class="px-8 py-4 text-xs font-mono text-slate-800 text-center font-bold">
-        DomainShield AI &copy; 2026 Smart India Hackathon Prototype (CHA-046) &bull; AI Protection Active
-      </footer>
     </div>
 
     ${state.reportModalDomain ? renderReportModalHTML(state.reportModalDomain) : ''}
