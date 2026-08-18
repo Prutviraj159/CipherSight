@@ -1,6 +1,6 @@
 /**
  * DomainShield AI — Clean Cybersecurity Scanner UI/UX Platform
- * Removed bottom footer text as requested (SIH Prototype CHA-046)
+ * Transparent Background Team CipherSight Logo (SIH Prototype CHA-046)
  */
 
 // ==========================================
@@ -220,7 +220,7 @@ function getRiskBadge(score, level) {
   `;
 }
 
-// TOP NAVBAR
+// TOP NAVBAR WITH TRANSPARENT LOGO
 function renderTopNavbar() {
   const active = state.activeTab;
 
@@ -228,8 +228,8 @@ function renderTopNavbar() {
     <header class="py-4 px-6 sm:px-10 flex items-center justify-between max-w-7xl mx-auto w-full">
       <!-- Left Brand Logo -->
       <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-2xl bg-slate-900 border border-slate-700/60 text-cyan-400 flex items-center justify-center shadow-lg">
-          <i data-lucide="shield" class="w-6 h-6 text-cyan-400 fill-current"></i>
+        <div class="w-10 h-10 rounded-2xl bg-slate-900 border border-slate-700/60 p-1 text-cyan-400 flex items-center justify-center shadow-lg">
+          <img src="ciphersight_logo.png" alt="Team CipherSight Logo" class="w-full h-full object-contain">
         </div>
         <span class="font-extrabold text-xl text-slate-900 tracking-tight">DomainShield AI</span>
       </div>
@@ -489,12 +489,12 @@ function renderScanURLView() {
             </form>
           </div>
 
-          <!-- Right Shield Illustration Box -->
-          <div class="shrink-0 flex flex-col items-center justify-center space-y-1.5 p-3 rounded-2xl bg-slate-950/80 border border-slate-800 w-36">
-            <div class="w-24 h-24 relative flex items-center justify-center">
-              <img src="ai_shield_icon.jpg" alt="AI Shield" class="w-full h-full object-contain drop-shadow-md">
+          <!-- Right Transparent Logo Unit -->
+          <div class="shrink-0 flex flex-col items-center justify-center space-y-2 p-3.5 rounded-2xl bg-slate-950/80 border border-slate-800/80 w-36 text-center shadow-lg">
+            <div class="w-24 h-16 relative flex items-center justify-center">
+              <img src="ciphersight_logo.png" alt="Team CipherSight Logo" class="w-full h-full object-contain drop-shadow-[0_0_12px_rgba(0,240,255,0.4)]">
             </div>
-            <span class="text-[10px] font-mono font-bold text-slate-300">AI Protection Active</span>
+            <span class="text-[11px] font-mono font-bold text-cyan-400">Team CipherSight</span>
           </div>
         </div>
 
