@@ -1,0 +1,122 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+/* Reset & Base */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: linear-gradient(175deg, #d4f8ff 0%, #b5ebff 30%, #87cdff 65%, #6da5ff 100%);
+  background-attachment: fixed;
+  color: #0f172a;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Translucent Glass Side Panels */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 1.5rem;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+}
+
+/* Service White Cards */
+.card-service {
+  background-color: #ffffff;
+  border-radius: 1.25rem;
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+  transition: all 0.2s ease;
+}
+
+.card-service:hover {
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+  transform: translateY(-1px);
+}
+
+/* Center Dark Scanner Container */
+.dark-scanner-card {
+  background-color: #111827;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 1.5rem;
+  box-shadow: 0 20px 45px -10px rgba(15, 23, 42, 0.4);
+}
+
+/* Check Now Vibrant Blue Button */
+.btn-check-blue {
+  background: linear-gradient(135deg, #4361ee 0%, #3b82f6 100%);
+  color: #ffffff;
+  transition: all 0.2s ease;
+}
+
+.btn-check-blue:hover {
+  background: linear-gradient(135deg, #3a56d4 0%, #2563eb 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 25px -4px rgba(67, 97, 238, 0.4);
+}
+
+/* Dashboard Indigo Button */
+.btn-dashboard {
+  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+  color: #ffffff;
+  transition: all 0.2s ease;
+}
+
+.btn-dashboard:hover {
+  background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px -3px rgba(99, 102, 241, 0.35);
+}
+
+/* Top Navigation Pills */
+.nav-pill {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1.25rem;
+  border-radius: 0.75rem;
+  font-weight: 700;
+  font-size: 0.9375rem;
+  color: #1e293b;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.nav-pill.active {
+  background-color: #ffffff;
+  color: #4361ee;
+  border: 1px solid rgba(67, 97, 238, 0.3);
+  box-shadow: 0 4px 15px rgba(67, 97, 238, 0.12);
+}
+
+.nav-pill:not(.active):hover {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Circle Donut Graph Animation */
+@keyframes circleProgress {
+  from { stroke-dashoffset: 251.2; }
+}
+
+.animate-circle-gauge {
+  animation: circleProgress 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #d4f8ff;
+}
+::-webkit-scrollbar-thumb {
+  background: #60a5fa;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3b82f6;
+}
