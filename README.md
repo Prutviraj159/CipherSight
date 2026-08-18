@@ -55,7 +55,7 @@ DomainShield AI is a cybersecurity solution built for SIH Problem Statement **CH
 Simply clone the repository and open `index.html` in any web browser (Google Chrome, Microsoft Edge, Mozilla Firefox, Safari):
 
 ```bash
-git clone https://github.com/Pruthviraj159/SIH_2026.git
+git clone https://github.com/Prutviraj159/SIH_2026.git
 cd SIH_2026
 ```
 
