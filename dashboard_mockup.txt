@@ -1,0 +1,38 @@
++---------------------------------------------------------------------+
+¦  DOMAIN: sbi-secure-verify.com                    RISK: 0.76 (CRITICAL) ¦
++---------------------------------------------------------------------¦
+¦  BRAND MATCH: State Bank of India (92.5% visual similarity)          ¦
+¦  RECOMMENDATION: [WARNING] BLOCK - High-confidence phishing          ¦
++---------------------------------------------------------------------¦
+¦  EVIDENCE BREAKDOWN                                                  ¦
+¦  +-----------------------------------------------+                   ¦
+¦  ¦ Signal           ¦ Score  ¦ Weight ¦ Contrib. ¦                   ¦
+¦  +------------------+--------+--------+----------¦                   ¦
+¦  ¦ Registration     ¦ 0.70   ¦ 0.30   ¦ 0.21     ¦ [CRITICAL]        ¦
+¦  ¦ URL Entropy      ¦ 0.75   ¦ 0.25   ¦ 0.19     ¦ [CRITICAL]        ¦
+¦  ¦ SSL Certificate  ¦ 0.80   ¦ 0.15   ¦ 0.12     ¦ [CRITICAL]        ¦
+¦  ¦ Form Endpoints   ¦ 0.80   ¦ 0.15   ¦ 0.12     ¦ [CRITICAL]        ¦
+¦  ¦ Visual Similarity¦ 0.90   ¦ 0.10   ¦ 0.09     ¦ [WARNING]         ¦
+¦  +-----------------------------------------------+                   ¦
++---------------------------------------------------------------------¦
+¦  SIDE-BY-SIDE COMPARISON                                             ¦
+¦  +---------------------------------------------------------------+   ¦
+¦  ¦ LEGITIMATE (sbi.bank.in)¦ FAKE (sbi-secure-verify.com)        ¦   ¦
+¦  +-------------------------+-------------------------------------¦   ¦
+¦  ¦ Domain age: 5840 days   ¦ Domain age: 12 days                 ¦   ¦
+¦  ¦ Registrar: MarkMonitor  ¦ Registrar: PrivacyGuard             ¦   ¦
+¦  ¦ SSL: DigiCert (trusted) ¦ SSL: Let's Encrypt (mismatch)       ¦   ¦
+¦  ¦ Keywords: None          ¦ Keywords: secure, verify, sbi       ¦   ¦
+¦  ¦ Forms: 0 suspicious     ¦ Forms: 2 suspicious (login.php)     ¦   ¦
+¦  ¦ Visual: 100% (reference)¦ Visual: 92.5% (clone)               ¦   ¦
+¦  +---------------------------------------------------------------+   ¦
++---------------------------------------------------------------------¦
+¦  KEY DIFFERENCES                                                     ¦
+¦  * Domain age: 5840 days vs 12 days (Delta = 5828 days)              ¦
+¦  * Registrar: MarkMonitor Inc. vs PrivacyGuard Services              ¦
+¦  * SSL CN match: Yes vs No                                           ¦
+¦  * URL keywords: None vs 'secure', 'verify', 'sbi'                   ¦
++---------------------------------------------------------------------¦
+¦  [VERDICT: Legitimate] [Phishing] [Needs Review]                     ¦
+¦  Analyst note: [________________________________________] [SUBMIT]   ¦
++---------------------------------------------------------------------+

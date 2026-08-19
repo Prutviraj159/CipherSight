@@ -1,0 +1,4 @@
+{
+  "high_risk": {"lexical": 0.95, "registration": 0.98, "infrastructure": 0.90, "text": 0.80, "visual": 0.0, "forms": 1.0, "visual_source_available": false},
+  "low_risk": {"lexical": 0.05, "registration": 0.05, "infrastructure": 0.05, "text": 0.05, "visual": 0.0, "forms": 0.0, "visual_source_available": false}
+}

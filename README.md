@@ -1,62 +1,67 @@
-# DomainShield AI — Smart India Hackathon (SIH 2026 CHA-046)
+# Lookalike Radar backend MVP
 
-**AI/ML Phishing Domain Detection using WHOIS/RDAP + Visual Similarity**
+An offline-safe, explainable FastAPI vertical slice for early detection of phishing lookalike domains. It was derived from the supplied research repository and its companion SIH research report.
 
-DomainShield AI is a cybersecurity solution built for SIH Problem Statement **CHA-046**. It combines domain registration intelligence (WHOIS/RDAP), URL entropy analysis, HTML content extraction, and computer vision layout similarity matching to protect users from lookalike phishing portals.
+## What it provides
 
----
+- Protected brand catalogue with seeded demonstration brands.
+- Strict HTTP(S), IDNA and hostname validation; IP-address targets and credential-bearing URLs are rejected.
+- Explainable hybrid baseline: lexical brand similarity, punycode, domain structure, sensitive terms, TLD, registration, infrastructure, text, visual, and form signals.
+- Persistent scans, analyst verdicts and audit records using SQLite for the local MVP.
+- JSON and CSV exports; model-version tracking on every scan.
+- A defined security boundary: this public API never crawls a submitted target. A future isolated worker supplies normalized enrichment summaries.
 
-## 🌟 Key Features
+## Run
 
-- **Top Navigation Bar**: Brand identity (`DomainShield AI`), navigation pills (`Scan URL`, `Check File`, `Threat Database`, `Profile`), and `Dashboard` button.
-- **Left Panel (Detailed Analysis Services)**:
-  - **Phishing Check**: Credential theft & zero-day detection.
-  - **Malware Scan**: Static and dynamic heuristic analysis.
-  - **Brand Impersonation**: Lookalike domain & brand spoofing detection.
-  - **Reset Scanner Button**: Resets scanning state cleanly.
-- **Center Panel (Main Scanner Box)**:
-  - Dark obsidian navy scanner card (`#111827`).
-  - URL scanner input field (`https://secure-example.com`) and vibrant blue **Check Now** button (`#4361ee`).
-  - Green glowing **AI Protection Active** status.
-  - **AI Shield Illustration** box.
-  - **8-Stage Live Inspection Pipeline**:
-    1. Stage 01: Domain Discovery & DNS Resolution
-    2. Stage 02: RDAP / WHOIS Parsing
-    3. Stage 03: URL Structural Entropy Analysis
-    4. Stage 04: HTML Content & Form Action Extraction
-    5. Stage 05: Headless Screenshot Capture
-    6. Stage 06: Computer Vision Visual Similarity Matching
-    7. Stage 07: Neural AI Risk Engine Scoring
-    8. Stage 08: Final Verdict Computation
-- **Right Panel (Threat Status & Visual Risk Analytics)**:
-  - **Status: Safe** card (`Website is safe`).
-  - **Status: High Risk** card (`Phishing/Malware Detected`).
-  - **Circular Donut Gauge Chart**: Displays live risk percentage (`94.7%`) and `DEFCON 1` threat level.
-  - **Visual Risk Metric Breakdown Bars**: Visual Similarity (`96.4%`), Content & Form (`91.0%`), Domain Age (`82.0%`), URL Entropy (`76.0%`).
-  - **View Report Button**: Opens full security dossier with explainable AI audit trail and JSON download.
+Production-like local deployment (PostgreSQL plus Alembic migration):
 
----
-
-## 📁 Repository Structure
-
-```
-.
-├── index.html          # Main HTML entry point with Tailwind CSS & Lucide icons
-├── styles.css          # Custom glassmorphic stylesheet & linear background gradient
-├── app.js              # Single Page Application router, mock threat store & UI renderer
-├── ai_shield_icon.jpg  # AI Protection Shield graphic asset
-└── README.md           # Documentation
+```powershell
+docker compose up --build
 ```
 
----
+For the SQLite-backed test harness only:
 
-## 🚀 How to Run Locally
-
-Simply clone the repository and open `index.html` in any web browser (Google Chrome, Microsoft Edge, Mozilla Firefox, Safari):
-
-```bash
-git clone https://github.com/Prutviraj159/SIH_2026.git
-cd SIH_2026
+```powershell
+python -m venv .venv
+.\.venv\Scripts\python -m pip install -r requirements.txt
+.\.venv\Scripts\python -m pytest -q
 ```
 
-Open `index.html` directly in your browser or serve it with any local HTTP server.
+Set `DATABASE_URL`, a 32-byte-or-longer `JWT_SECRET`, `ADMIN_USERNAME`, and `ADMIN_PASSWORD` before starting the API outside Docker. Obtain a bearer token from `POST /auth/token`, then send it in `Authorization: Bearer <token>` for scan creation and analyst verdicts.
+
+```powershell
+docker compose logs api
+```
+
+## Example scan
+
+```powershell
+$token = (Invoke-RestMethod -Method Post -Uri 'http://127.0.0.1:8000/auth/token?username=admin&password=change-me').access_token
+$headers = @{ Authorization = "Bearer $token" }
+$body = @{ url = 'https://sbi-secure-login.zip/verify'; enrichment = @{ registration_age_days = 2; visual_similarity = 0.90; credential_form_detected = $true; external_form_action = $true } } | ConvertTo-Json
+Invoke-RestMethod -Method Post -Uri http://127.0.0.1:8000/scans -Headers $headers -ContentType 'application/json' -Body $body
+```
+
+## Production hardening path
+
+Replace SQLite with PostgreSQL, use the Public Suffix List for eTLD+1 extraction, authenticate and rate-limit every write endpoint, move enrichment to Celery/Redis workers, and run Playwright in a disposable sandbox with egress controls, SSRF protection, download blocking, redirect/time/page limits, and no credential submission. Tune score weights on held-out, time-split evaluation data instead of treating this baseline as a production classifier.
+
+## Phase 6 Deployment Runbook
+
+### Secrets Management
+- Do NOT hardcode JWT_SECRET, ADMIN_PASSWORD, or Database credentials in source control or docker-compose.yml for production.
+- Production secrets should be injected via a secure Vault and passed into the environment strictly at runtime.
+
+### Backup Strategy
+- PostgreSQL Data: Execute daily pg_dump snapshots. Configure WAL archiving to an isolated S3 bucket for point-in-time recovery.
+- Evidence Storage: Ensure PDF reports and raw HTML/screenshot artifacts are stored in a WORM compliant object storage bucket.
+
+### Migrations & Rollbacks
+- Apply migrations using alembic upgrade head exclusively through an automated CI/CD pipeline after passing test gates.
+- Never drop columns; deprecate them first, then drop them in a subsequent major release to avoid breaking running API containers.
+
+### Execution Profiles
+The repository now natively supports Docker compose profiles.
+- API & DB Only: docker-compose up -d
+- Include Worker: docker-compose --profile worker up -d
+- Run Tests Offline: docker-compose --profile test run test

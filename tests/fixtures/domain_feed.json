@@ -1,0 +1,8 @@
+[
+  {
+    "domain": "secure-sbi-login.example",
+    "source": "replay_fixture",
+    "source_record_id": "fixture-001",
+    "observed_at": "2026-08-18T00:00:00Z"
+  }
+]

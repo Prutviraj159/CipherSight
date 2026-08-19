@@ -1,0 +1,12 @@
+[
+  {
+    "domain": "secure-sbi-login.example",
+    "scan_id": "7a49ab9b-97d5-4fdc-8aa5-1a0d2147056c",
+    "created_at": "2026-08-18T00:00:00Z"
+  },
+  {
+    "domain": "192.168.1.1",
+    "scan_id": "55ba9cda-3f4d-4305-9ec9-2d7e4055e6aa",
+    "created_at": "2026-08-18T00:00:00Z"
+  }
+]

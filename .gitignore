@@ -1,4 +1,5 @@
-remove_bg.ps1
-ciphersight_logo_no_bg.png
-.DS_Store
-*.log
+.venv/
+__pycache__/
+.pytest_cache/
+data/*.db
+logs/

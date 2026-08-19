@@ -1,3 +1,9 @@
+window.addEventListener('error', function(e) {
+  document.body.innerHTML += '<div style="color:red; background:white; position:fixed; top:0; z-index:9999; padding: 10px; width: 100%; word-wrap: break-word;">Error: ' + e.message + ' at ' + e.filename + ':' + e.lineno + ':' + e.colno + '<br>Stack: ' + (e.error ? e.error.stack : '') + '</div>';
+});
+window.addEventListener('unhandledrejection', function(e) {
+  document.body.innerHTML += '<div style="color:red; background:white; position:fixed; top:40px; z-index:9999; padding: 10px; width: 100%; word-wrap: break-word;">Promise Rejection: ' + e.reason + '<br>Stack: ' + (e.reason && e.reason.stack ? e.reason.stack : '') + '</div>';
+});
 /**
  * DomainShield AI — Clean Cybersecurity Scanner UI/UX Platform
  * Transparent Background Team CipherSight Logo (SIH Prototype CHA-046)
@@ -7,7 +13,7 @@
 // 1. MOCK DATA STORE
 // ==========================================
 
-const MOCK_THREATS = [
+let MOCK_THREATS = [
   {
     id: 'DS-9481',
     domain: 'secure-login-example.com',
@@ -280,8 +286,11 @@ function renderTopNavbar() {
 
 // CIRCULAR RISK SCORE GAUGE & VISUAL DETAILS
 function renderRightCircleGraphCard() {
+  const scan = window.SCAN_DATA && window.SCAN_DATA[state.scanInput.replace(/^https?:\/\//, "").replace(/\/$/, "")];
+  const mapped = scan ? window.scanMapper.mapScanResponse(scan) : null;
+  const targetScore = mapped && mapped.riskScore !== "N/A" ? mapped.riskScore * 100 : 0;
   const currentStep = state.scanStep;
-  const currentScore = Math.min(94.7, (currentStep / 8) * 94.7).toFixed(1);
+  const currentScore = Math.min(targetScore, (currentStep / 8) * targetScore).toFixed(1);
   const strokeDash = 251.2;
   const strokeOffset = strokeDash - (strokeDash * currentScore) / 100;
 
@@ -291,7 +300,7 @@ function renderRightCircleGraphCard() {
         <h3 class="text-xs font-extrabold text-slate-900 flex items-center gap-1.5">
           <i data-lucide="pie-chart" class="w-4 h-4 text-red-500"></i> Visual Risk Analytics
         </h3>
-        <span class="text-[10px] font-mono text-red-600 font-bold px-2 py-0.5 rounded bg-red-50 border border-red-200">DEFCON 1</span>
+        <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded ${mapped && mapped.riskLevel === 'critical' ? 'bg-red-50 border border-red-200 text-red-600' : 'bg-slate-50 border border-slate-200 text-slate-600'}">${mapped && mapped.riskLevel === 'critical' ? 'DEFCON 1' : 'DEFCON 3'}</span>
       </div>
 
       <!-- Circular Donut Graph Gauge -->
@@ -771,7 +780,13 @@ function closeReportModal() {
 }
 
 function renderReportModalHTML(domain) {
-  const data = MOCK_ANALYSIS_DATA['secure-example.com'];
+    const scan = window.SCAN_DATA && window.SCAN_DATA[domain];
+  if (!scan) return '<div>No data</div>';
+  const riskPercent = (scan.risk_score * 100).toFixed(1);
+  const verdictLabel = scan.status.toUpperCase() === 'NEEDS_REVIEW' ? scan.risk_level.toUpperCase() : scan.status.toUpperCase();
+  const data = {
+    reasons: scan.explanation.map(e => ({title: e.signal + ': ' + e.detail}))
+  };
 
   return `
     <div class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
@@ -786,11 +801,11 @@ function renderReportModalHTML(domain) {
         <div class="grid grid-cols-2 gap-4 text-slate-700">
           <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
             <span class="text-slate-400 block text-[10px]">VERDICT</span>
-            <strong class="text-red-600 font-bold text-sm">94.7% PHISHING</strong>
+            <strong class="text-red-600 font-bold text-sm">${riskPercent}% ${verdictLabel}</strong>
           </div>
           <div class="p-3 rounded-xl bg-slate-50 border border-slate-200">
             <span class="text-slate-400 block text-[10px]">VISUAL MATCH</span>
-            <strong class="text-emerald-600 font-bold text-sm">96.4% (Microsoft)</strong>
+            <strong class="text-emerald-600 font-bold text-sm">${scan.target_brand ? scan.target_brand.name : 'Unknown'}</strong>
           </div>
         </div>
 
@@ -821,3 +836,77 @@ function renderReportModalHTML(domain) {
 window.addEventListener('load', () => {
   router();
 });
+
+// === BACKEND INTEGRATION ===
+window.BACKEND_TOKEN = null;
+
+async function initBackend() {
+    const API = window.ENV.API_BASE_URL;
+    try {
+        const authRes = await fetch(API + '/auth/token?username=admin&password=change-me', {method: 'POST'});
+        const authData = await authRes.json();
+        window.BACKEND_TOKEN = authData.access_token;
+        console.log("Logged in to Backend!", authData);
+
+        const brandsRes = await fetch(API + '/brands', {headers: {Authorization: 'Bearer ' + window.BACKEND_TOKEN}});
+        const brands = await brandsRes.json();
+        console.log("Brands loaded:", brands);
+
+        const scansRes = await fetch(API + '/scans', {headers: {Authorization: 'Bearer ' + window.BACKEND_TOKEN}});
+        const scans = await scansRes.json();
+        window.SCAN_DATA = {};
+        scans.forEach(s => window.SCAN_DATA[s.normalized_domain] = s);
+        
+        MOCK_THREATS = scans.map(scan => {
+            const mapped = window.scanMapper.mapScanResponse(scan);
+            return {
+                id: 'DS-' + mapped.scanId,
+                domain: mapped.domain,
+                detectedAt: mapped.createdAt,
+                defcon: mapped.riskLevel === 'critical' ? 'DEFCON 1' : 'DEFCON 3',
+                riskLevel: mapped.riskLevel,
+                probability: mapped.riskScore !== 'N/A' ? mapped.riskScore * 100 : 0,
+                target: mapped.targetBrand ? mapped.targetBrand.name : 'Unknown',
+                status: mapped.verdict,
+                ageDays: mapped.domainAge,
+                visualSim: mapped.visualMatch !== 'N/A' ? (mapped.visualMatch * 100).toFixed(1) : 'N/A'
+            };
+        });
+        router();
+    } catch(e) {
+        console.error("Backend integration failed", e);
+    }
+}
+
+const originalHandleQuickScan = handleQuickScan;
+window.handleQuickScan = async function(e) {
+    e.preventDefault();
+    const val = document.getElementById('quick-scan-input')?.value || 'https://secure-example.com';
+    state.scanInput = val;
+    startScanAnimation();
+    
+    if (window.BACKEND_TOKEN) {
+        try {
+            await fetch(window.ENV.API_BASE_URL + '/scans', {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + window.BACKEND_TOKEN,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ url: val, enrichment: {} })
+            });
+            setTimeout(initBackend, 1500); 
+        } catch(e) {
+            console.error("Scan submission failed", e);
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', initBackend);
+
+
+
+
+
+
+

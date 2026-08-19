@@ -1,0 +1,124 @@
+{
+  "scan_id": "scan_12345",
+  "domain": "sbi-secure-verify.com",
+  "brand_match": "State Bank of India",
+  "final_risk_score": 0.76,
+  "risk_level": "critical",
+  "recommendation": "BLOCK - High-confidence phishing",
+  
+  "evidence_breakdown": {
+    "registration": {
+      "score": 0.70,
+      "weight": 0.30,
+      "contribution": 0.21,
+      "details": {
+        "domain_age_days": 12,
+        "registrar": "PrivacyGuard Services",
+        "country": "PA",
+        "reasons": [
+          "Domain age: 12 days (< 30 days)",
+          "Registrar: PrivacyGuard Services (privacy-protected)",
+          "Registration country: PA (elevated risk)"
+        ]
+      }
+    },
+    "url_entropy": {
+      "score": 0.75,
+      "weight": 0.25,
+      "contribution": 0.19,
+      "details": {
+        "domain_entropy": 3.92,
+        "suspicious_keywords": ["secure", "verify", "sbi"],
+        "hyphen_count": 2,
+        "tld": "com",
+        "reasons": [
+          "Brand 'sbi' in subdomain (typosquatting)",
+          "Suspicious keywords: secure, verify, sbi",
+          "Multiple hyphens: 2 (suspicious)"
+        ]
+      }
+    },
+    "ssl_certificate": {
+      "score": 0.80,
+      "weight": 0.15,
+      "contribution": 0.12,
+      "details": {
+        "issuer": "Let's Encrypt",
+        "subject_cn": "*.sbi-verify.com",
+        "cn_matches_domain": false,
+        "reasons": [
+          "Untrusted SSL issuer: Let's Encrypt",
+          "SSL certificate CN mismatch: *.sbi-verify.com != sbi-secure-verify.com"
+        ]
+      }
+    },
+    "form_endpoints": {
+      "score": 0.80,
+      "weight": 0.15,
+      "contribution": 0.12,
+      "details": {
+        "total_forms": 2,
+        "suspicious_forms": [
+          {
+            "action": "https://sbi-secure-verify.com/login.php",
+            "has_password": true,
+            "reasons": ["Suspicious form action: login.php", "Form contains password input field"]
+          }
+        ],
+        "reasons": [
+          "Suspicious form action: login.php",
+          "Form contains password input field"
+        ]
+      }
+    },
+    "visual_similarity": {
+      "score": 0.90,
+      "weight": 0.10,
+      "contribution": 0.09,
+      "details": {
+        "similarity_percentage": 92.5,
+        "matched_elements": ["logo", "color_scheme", "layout"],
+        "reasons": [
+          "High visual similarity to SBI brand (92.5%)"
+        ]
+      }
+    }
+  },
+  
+  "side_by_side_comparison": {
+    "legitimate_reference": {
+      "domain": "sbi.bank.in",
+      "risk_score": 0.00,
+      "risk_level": "low",
+      "domain_age_days": 5840,
+      "registrar": "MarkMonitor Inc.",
+      "ssl_issuer": "DigiCert Inc",
+      "visual_similarity": 1.0
+    },
+    "scanned_domain": {
+      "domain": "sbi-secure-verify.com",
+      "risk_score": 0.76,
+      "risk_level": "critical",
+      "domain_age_days": 12,
+      "registrar": "PrivacyGuard Services",
+      "ssl_issuer": "Let's Encrypt",
+      "visual_similarity": 0.92
+    },
+    "key_differences": [
+      "Domain age: 5840 days vs 12 days (? = 5828 days)",
+      "Registrar: MarkMonitor Inc. vs PrivacyGuard Services (trusted vs privacy)",
+      "SSL issuer: DigiCert vs Let's Encrypt (enterprise vs free)",
+      "URL keywords: None vs 'secure', 'verify', 'sbi'",
+      "SSL CN match: Yes vs No"
+    ]
+  },
+  
+  "audit_trail": {
+    "scan_initiated": "2026-08-18T15:30:00Z",
+    "rdap_fetched": "2026-08-18T15:30:02Z",
+    "crawl_completed": "2026-08-18T15:30:15Z",
+    "risk_calculated": "2026-08-18T15:30:16Z",
+    "analyst_id": null,
+    "verdict": null
+  }
+}

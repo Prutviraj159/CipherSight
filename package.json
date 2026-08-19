@@ -1,0 +1,21 @@
+{
+  "name": "lookalike-radar",
+  "version": "1.0.0",
+  "description": "An offline-safe, explainable FastAPI vertical slice for early detection of phishing lookalike domains. It was derived from the supplied research repository and its companion SIH research report.",
+  "main": "fix_app.js",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "marked": "^18.0.10",
+    "puppeteer": "^25.8.0"
+  }
+}
