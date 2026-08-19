@@ -5,7 +5,7 @@ window.addEventListener('unhandledrejection', function(e) {
   document.body.innerHTML += '<div style="color:red; background:white; position:fixed; top:40px; z-index:9999; padding: 10px; width: 100%; word-wrap: break-word;">Promise Rejection: ' + e.reason + '<br>Stack: ' + (e.reason && e.reason.stack ? e.reason.stack : '') + '</div>';
 });
 /**
- * DomainShield AI — Clean Cybersecurity Scanner UI/UX Platform
+ * CyberLens AI — Clean Cybersecurity Scanner UI/UX Platform
  * Transparent Background Team CipherSight Logo (SIH Prototype CHA-046)
  */
 
@@ -237,7 +237,7 @@ function renderTopNavbar() {
         <div class="w-10 h-10 rounded-2xl bg-slate-900 border border-slate-700/60 p-1 text-cyan-400 flex items-center justify-center shadow-lg">
           <img src="ciphersight_logo.png" alt="Team CipherSight Logo" class="w-full h-full object-contain">
         </div>
-        <span class="font-extrabold text-xl text-slate-900 tracking-tight">DomainShield AI</span>
+        <span class="font-extrabold text-xl text-slate-900 tracking-tight">CyberLens AI</span>
       </div>
 
       <!-- Center Navigation Pills -->
@@ -821,7 +821,7 @@ function renderReportModalHTML(domain) {
         <div class="flex gap-3 pt-2">
           <a
             href="data:text/json;charset=utf-8,${encodeURIComponent(JSON.stringify(MOCK_ANALYSIS_DATA['secure-example.com'], null, 2))}"
-            download="domainshield-report-${domain}.json"
+            download="CyberLens-report-${domain}.json"
             class="flex-1 py-3 btn-check-blue font-bold rounded-xl text-center shadow-sm text-xs"
           >
             Download JSON Dossier
@@ -903,6 +903,7 @@ window.handleQuickScan = async function(e) {
 }
 
 document.addEventListener('DOMContentLoaded', initBackend);
+
 
 
 

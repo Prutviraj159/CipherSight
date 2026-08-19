@@ -1,14 +1,14 @@
-# DomainShield AI — Smart India Hackathon (SIH 2026 CHA-046)
+# CyberLens AI — Smart India Hackathon (SIH 2026 CHA-046)
 
 **AI/ML Phishing Domain Detection using WHOIS/RDAP + Visual Similarity**
 
-DomainShield AI is a cybersecurity solution built for SIH Problem Statement **CHA-046**. It combines domain registration intelligence (WHOIS/RDAP), URL entropy analysis, HTML content extraction, and computer vision layout similarity matching to protect users from lookalike phishing portals.
+CyberLens AI is a cybersecurity solution built for SIH Problem Statement **CHA-046**. It combines domain registration intelligence (WHOIS/RDAP), URL entropy analysis, HTML content extraction, and computer vision layout similarity matching to protect users from lookalike phishing portals.
 
 ---
 
 ## 🌟 Key Features
 
-- **Top Navigation Bar**: Brand identity (`DomainShield AI`), navigation pills (`Scan URL`, `Check File`, `Threat Database`, `Profile`), and `Dashboard` button.
+- **Top Navigation Bar**: Brand identity (`CyberLens AI`), navigation pills (`Scan URL`, `Check File`, `Threat Database`, `Profile`), and `Dashboard` button.
 - **Left Panel (Detailed Analysis Services)**:
   - **Phishing Check**: Credential theft & zero-day detection.
   - **Malware Scan**: Static and dynamic heuristic analysis.
@@ -60,3 +60,4 @@ cd SIH_2026
 ```
 
 Open `index.html` directly in your browser or serve it with any local HTTP server.
+
