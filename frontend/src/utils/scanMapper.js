@@ -1,11 +1,9 @@
 window.scanMapper = {
     mapVerdict: function(raw) {
         if (!raw) return "DATA_UNAVAILABLE";
-        
         if (raw.status === "failed") return "ERROR";
         if (raw.status === "pending" || raw.status === "processing") return "PROCESSING";
 
-        // 1. Explicit analyst verdict
         if (raw.verdict && typeof raw.verdict === 'string') {
             const v = raw.verdict.toLowerCase();
             if (v === 'phishing') return 'PHISHING';
@@ -13,23 +11,20 @@ window.scanMapper = {
             if (v === 'needs_review') return 'NEEDS_REVIEW';
         }
         
-        // Use status if verdict not explicitly 'verdict' field but status is used for analyst verdict
         if (raw.status && typeof raw.status === 'string') {
             const s = raw.status.toLowerCase();
             if (s === 'phishing') return 'PHISHING';
             if (s === 'legitimate') return 'LEGITIMATE';
         }
 
-        // 2. Map backend risk_level
         if (raw.risk_level) {
             switch (raw.risk_level.toLowerCase()) {
                 case "low": return "SAFE";
                 case "suspicious": return "NEEDS_REVIEW";
                 case "high": return "HIGH_RISK";
-                case "critical": return "HIGH_RISK";
+                case "critical": return "CRITICAL";
             }
         }
-        
         return "DATA_UNAVAILABLE";
     },
 
